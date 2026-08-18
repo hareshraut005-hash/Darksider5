@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkSider - Dark Psychology</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+        <div class="login-box">
+            <div class="logo">🧠</div>
+            <h1>DarkSider</h1>
+            <p class="tagline" id="login-tagline">Begin your psychological journey</p>
+            <input type="email" id="login-email" placeholder="Email" class="input-field">
+            <input type="password" id="login-password" placeholder="Password" class="input-field">
+            <button id="login-btn" class="btn primary">Login</button>
+            <button id="guest-btn" class="btn ghost">Continue as Guest</button>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="screen">
+        <!-- Header -->
+        <header>
+            <div class="header-left">
+                <span class="logo-small">🧠</span>
+                <span class="app-title">DarkSider</span>
+            </div>
+            <div class="header-right">
+                <select id="lang-select" class="lang-select">
+                    <option value="en">English</option>
+                    <option value="hi">हिन्दी</option>
+                </select>
+                <button id="settings-btn" class="icon-btn">⚙️</button>
+            </div>
+        </header>
+
+        <!-- Home View -->
+        <main id="home-view" class="view active">
+            <div class="hero">
+                <div class="hero-logo">🧠</div>
+                <h2 id="home-title">Ready to learn Dark Psychology?</h2>
+                <p id="home-subtitle">Select a topic below to start learning.</p>
+            </div>
+            <div id="topics-list" class="topics-list"></div>
+        </main>
+
+        <!-- Learn View -->
+        <main id="learn-view" class="view">
+            <div class="learn-container">
+                <button id="back-to-topics" class="back-btn">← <span data-i18n="back">Back</span></button>
+                <h2 id="learn-title"></h2>
+                <p id="learn-paragraph"></p>
+                <div class="action-row">
+                    <button id="listen-btn" class="btn secondary">🔊 <span data-i18n="listen">Listen</span></button>
+                    <button id="quiz-btn" class="btn primary">📝 <span data-i18n="take-quiz">Take Quiz</span></button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Quiz View -->
+        <main id="quiz-view" class="view">
+            <div class="quiz-container">
+                <button id="back-to-learn" class="back-btn">← <span data-i18n="back">Back</span></button>
+                <div id="quiz-progress"></div>
+                <h3 id="quiz-question"></h3>
+                <div id="quiz-options" class="options"></div>
+                <button id="next-btn" class="btn primary hidden">Next</button>
+                <div id="quiz-result" class="hidden">
+                    <h2 id="result-title"></h2>
+                    <p id="score-text"></p>
+                    <button id="restart-btn" class="btn ghost">Try Again</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Settings Modal -->
+        <div id="settings-modal" class="modal hidden">
+            <div class="modal-content">
+                <button id="close-settings" class="close-btn">✕</button>
+                <h2 data-i18n="settings">Settings</h2>
+                <button class="settings-item" data-action="privacy">🔒 <span data-i18n="privacy">Privacy Policy</span></button>
+                <button class="settings-item" data-action="terms">📄 <span data-i18n="terms">Terms & Conditions</span></button>
+                <button class="settings-item" data-action="about">ℹ️ <span data-i18n="about">About Us</span></button>
+                <button class="settings-item" data-action="logout">🚪 <span data-i18n="logout">Logout</span></button>
+            </div>
+        </div>
+
+        <!-- Legal Modal -->
+        <div id="legal-modal" class="modal hidden">
+            <div class="modal-content legal-content">
+                <button id="close-legal" class="close-btn">✕</button>
+                <h2 id="legal-title"></h2>
+                <p id="legal-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
