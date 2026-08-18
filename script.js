@@ -1,8 +1,6 @@
-// Language
+// ---------- STATE ----------
 let currentLang = localStorage.getItem('lang') || 'en';
 let currentUser = localStorage.getItem('user') || null;
-
-// Data
 let topics = [];
 let quizData = {};
 let currentTopic = null;
@@ -10,19 +8,18 @@ let currentQuestions = [];
 let questionIndex = 0;
 let score = 0;
 let answered = false;
-
-// TTS
 let speechSynth = window.speechSynthesis;
 let speaking = false;
+let progressData = JSON.parse(localStorage.getItem('progress')) || {};
 
-// DOM elements
+// ---------- DOM ELEMENTS ----------
 const loginScreen = document.getElementById('login-screen');
 const appScreen = document.getElementById('app');
 const langSelect = document.getElementById('lang-select');
 const settingsModal = document.getElementById('settings-modal');
 const legalModal = document.getElementById('legal-modal');
 
-// Initialize
+// ---------- INIT ----------
 document.addEventListener('DOMContentLoaded', async () => {
     langSelect.value = currentLang;
     applyLanguage(currentLang);
@@ -33,15 +30,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         showLogin();
     }
 
-    // Load data
     try {
         const topicsRes = await fetch('data/topics.json');
         topics = await topicsRes.json();
         const quizRes = await fetch('data/quiz.json');
         const quizArray = await quizRes.json();
         quizArray.forEach(q => {
-            if (!quizData[q.topicId]) quizData[q.topicId] = [];
-            quizData[q.topicId].push(q);
+            const tid = q.topicId || q.id;
+            if (!quizData[tid]) quizData[tid] = [];
+            quizData[tid].push(q);
         });
         renderTopics();
     } catch (err) {
@@ -49,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Login
+// ---------- LOGIN ----------
 document.getElementById('login-btn').addEventListener('click', () => {
     const email = document.getElementById('login-email').value.trim();
     const password = document.getElementById('login-password').value.trim();
@@ -77,7 +74,7 @@ function showApp() {
     showView('home');
 }
 
-// Language
+// ---------- LANGUAGE ----------
 langSelect.addEventListener('change', (e) => {
     currentLang = e.target.value;
     localStorage.setItem('lang', currentLang);
@@ -93,7 +90,6 @@ function applyLanguage(lang) {
     });
 }
 
-// Simple translations for static text
 const translations = {
     en: {
         'back': 'Back',
@@ -117,29 +113,65 @@ const translations = {
     }
 };
 
-// Views
+// ---------- VIEW MANAGEMENT ----------
 function showView(viewName) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById(`${viewName}-view`).classList.add('active');
 }
 
-// Render topics
+// ---------- PROGRESS & LEVELS ----------
+function getTopicProgress(topicId) {
+    return progressData[topicId] || { learn: false, quizScore: null };
+}
+
+function calculateProgressPercent(topicId) {
+    const prog = getTopicProgress(topicId);
+    let percent = 0;
+    if (prog.learn) percent += 50; // reading counts 50%
+    if (prog.quizScore !== null) {
+        percent += (prog.quizScore / 100) * 50; // quiz score contributes up to 50%
+    }
+    return Math.round(percent);
+}
+
+function getLevel(percent) {
+    if (percent >= 90) return '🏆 Level 5';
+    if (percent >= 75) return '🔥 Level 4';
+    if (percent >= 50) return '⭐ Level 3';
+    if (percent >= 25) return '📘 Level 2';
+    return '📖 Level 1';
+}
+
+function saveProgress(topicId, data) {
+    progressData[topicId] = data;
+    localStorage.setItem('progress', JSON.stringify(progressData));
+}
+
+// ---------- RENDER TOPICS ----------
 function renderTopics() {
     const list = document.getElementById('topics-list');
     list.innerHTML = '';
     topics.forEach((topic, index) => {
+        const tid = topic.topicId || topic.id;
+        const percent = calculateProgressPercent(tid);
+        const level = getLevel(percent);
         const card = document.createElement('div');
         card.className = 'topic-card';
         card.innerHTML = `
             <div class="topic-number">${index + 1}</div>
             <div class="topic-title">${topic.title[currentLang]}</div>
+            <div class="topic-progress">
+                <span class="progress-percent">${percent}%</span>
+                <div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div>
+                <span class="level-badge">${level}</span>
+            </div>
         `;
         card.addEventListener('click', () => openLearn(topic));
         list.appendChild(card);
     });
 }
 
-// Learn view
+// ---------- LEARN ----------
 function openLearn(topic) {
     currentTopic = topic;
     updateLearn();
@@ -148,8 +180,14 @@ function openLearn(topic) {
 
 function updateLearn() {
     if (!currentTopic) return;
+    const tid = currentTopic.topicId || currentTopic.id;
     document.getElementById('learn-title').textContent = currentTopic.title[currentLang];
     document.getElementById('learn-paragraph').textContent = currentTopic.paragraph[currentLang];
+
+    const prog = getTopicProgress(tid);
+    const percent = calculateProgressPercent(tid);
+    const badge = document.getElementById('learn-progress-badge');
+    badge.textContent = `${percent}% · ${getLevel(percent)}`;
 }
 
 // TTS
@@ -174,15 +212,22 @@ function speak(text) {
     speechSynth.speak(utterance);
 }
 
-// Quiz
+// "Take Quiz" -> mark learn complete and open quiz
 document.getElementById('quiz-btn').addEventListener('click', () => {
     if (!currentTopic) return;
-    const topicId = currentTopic.topicId || currentTopic.id;
-    if (!quizData[topicId] || quizData[topicId].length === 0) {
+    const tid = currentTopic.topicId || currentTopic.id;
+    // Mark as learned
+    const prog = getTopicProgress(tid);
+    if (!prog.learn) {
+        prog.learn = true;
+        saveProgress(tid, prog);
+    }
+    // Load quiz
+    if (!quizData[tid] || quizData[tid].length === 0) {
         alert('Quiz not available yet');
         return;
     }
-    currentQuestions = quizData[topicId];
+    currentQuestions = quizData[tid];
     questionIndex = 0;
     score = 0;
     answered = false;
@@ -190,6 +235,7 @@ document.getElementById('quiz-btn').addEventListener('click', () => {
     renderQuestion();
 });
 
+// ---------- QUIZ ----------
 function renderQuestion() {
     const q = currentQuestions[questionIndex];
     document.getElementById('quiz-progress').textContent = `Question ${questionIndex + 1} / ${currentQuestions.length}`;
@@ -213,9 +259,9 @@ function selectOption(idx) {
     const q = currentQuestions[questionIndex];
     const options = document.querySelectorAll('.option');
     options.forEach((opt, i) => {
+        opt.classList.add('disabled');
         if (i === q.correctIndex) opt.classList.add('correct');
         else if (i === idx) opt.classList.add('wrong');
-        else opt.classList.add('disabled');
     });
     if (idx === q.correctIndex) score++;
     document.getElementById('next-btn').classList.remove('hidden');
@@ -232,9 +278,20 @@ document.getElementById('next-btn').addEventListener('click', () => {
 });
 
 function showResult() {
+    const total = currentQuestions.length;
+    const percent = Math.round((score / total) * 100);
     document.getElementById('quiz-result').classList.remove('hidden');
     document.getElementById('result-title').textContent = currentLang === 'hi' ? 'परिणाम' : 'Result';
-    document.getElementById('score-text').textContent = `${score} / ${currentQuestions.length}`;
+    document.getElementById('score-text').textContent = `${score} / ${total} (${percent}%)`;
+    // Save progress
+    if (currentTopic) {
+        const tid = currentTopic.topicId || currentTopic.id;
+        const prog = getTopicProgress(tid);
+        prog.quizScore = percent;
+        saveProgress(tid, prog);
+        updateLearn();
+    }
+    document.getElementById('next-btn').classList.add('hidden');
     document.getElementById('restart-btn').addEventListener('click', () => {
         questionIndex = 0;
         score = 0;
