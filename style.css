@@ -1,13 +1,15 @@
 /* ============ CSS VARIABLES ============ */
 :root {
-    --bg-base: #0B0710;          /* deep purple-black */
-    --bg-card: #1a1a2e;          /* slightly lighter card */
+    --bg-base: #D3D3D3;          /* light silver background */
+    --bg-card: #FFFFFF;          /* white cards */
+    --bg-input: #F0F0F0;         /* light gray input */
     --primary: #F72585;          /* neon magenta */
     --secondary: #7209B7;        /* deep royal purple */
-    --text-primary: #ffffff;
-    --text-secondary: #b0b0b0;
+    --text-primary: #1a1a1a;     /* dark text for readability */
+    --text-secondary: #555555;   /* medium gray */
     --border-glow: rgba(247,37,133,0.4);
-    --shadow-glow: 0 0 20px rgba(114,9,183,0.5);
+    --shadow-glow: 0 4px 15px rgba(114,9,183,0.2);
+    --hover-bg: #F5F5F5;
 }
 
 /* ============ BASE ============ */
@@ -36,11 +38,11 @@ body {
     max-width: 400px;
     margin: 80px auto;
     padding: 40px;
-    background: rgba(26,26,46,0.9);
+    background: var(--bg-card);
     border-radius: 20px;
     text-align: center;
     box-shadow: var(--shadow-glow);
-    border: 1px solid var(--border-glow);
+    border: 1px solid var(--secondary);
 }
 
 .logo {
@@ -63,7 +65,7 @@ body {
     width: 100%;
     padding: 14px;
     margin-bottom: 16px;
-    background: rgba(11,7,16,0.7);
+    background: var(--bg-input);
     border: 1px solid var(--secondary);
     border-radius: 10px;
     color: var(--text-primary);
@@ -118,11 +120,11 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background: rgba(11,7,16,0.9);
+    background: #FFFFFF;
     position: sticky;
     top: 0;
     z-index: 10;
-    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .header-left {
@@ -148,7 +150,7 @@ header {
 }
 
 .lang-select {
-    background: var(--bg-card);
+    background: var(--bg-input);
     color: var(--text-primary);
     border: 1px solid var(--secondary);
     padding: 8px 12px;
@@ -178,6 +180,7 @@ header {
 .hero h2 {
     margin-bottom: 10px;
     font-size: 28px;
+    color: var(--text-primary);
 }
 
 .hero p {
@@ -200,11 +203,12 @@ header {
     gap: 15px;
     cursor: pointer;
     transition: 0.3s;
-    border: 1px solid transparent;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 .topic-card:hover {
     border-color: var(--primary);
-    box-shadow: var(--shadow-glow);
+    box-shadow: 0 5px 15px rgba(114,9,183,0.15);
     transform: translateY(-3px);
 }
 
@@ -242,7 +246,7 @@ header {
 .progress-bar {
     width: 80px;
     height: 6px;
-    background: rgba(255,255,255,0.1);
+    background: #e0e0e0;
     border-radius: 3px;
     overflow: hidden;
 }
@@ -299,8 +303,9 @@ header {
     background: var(--bg-card);
     padding: 20px;
     border-radius: 15px;
-    border: 1px solid var(--border-glow);
-    box-shadow: var(--shadow-glow);
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    color: var(--text-primary);
 }
 
 .action-row {
@@ -342,7 +347,7 @@ header {
 
 .option {
     background: var(--bg-card);
-    border: 1px solid rgba(114,9,183,0.5);
+    border: 1px solid #e0e0e0;
     border-radius: 12px;
     padding: 14px;
     cursor: pointer;
@@ -355,7 +360,7 @@ header {
 }
 .option.selected {
     border-color: var(--primary);
-    background: rgba(247,37,133,0.15);
+    background: rgba(247,37,133,0.1);
 }
 .option.correct {
     background: #2e7d32;
@@ -383,7 +388,7 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0,0,0,0.6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -401,7 +406,8 @@ header {
     max-width: 500px;
     position: relative;
     color: var(--text-primary);
-    border: 1px solid var(--border-glow);
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
 .legal-content {
@@ -424,8 +430,8 @@ header {
     display: block;
     width: 100%;
     padding: 15px;
-    background: rgba(11,7,16,0.7);
-    border: 1px solid var(--secondary);
+    background: var(--bg-input);
+    border: 1px solid #e0e0e0;
     border-radius: 10px;
     color: var(--text-primary);
     text-align: left;
@@ -435,5 +441,7 @@ header {
     transition: 0.3s;
 }
 .settings-item:hover {
-    background: var(--secondary);
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
 }
