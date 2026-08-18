@@ -1,0 +1,32 @@
+[
+  {
+    "topicId": "dark-psychology",
+    "id": 1,
+    "question": {
+      "en": "What is Dark Psychology primarily concerned with?",
+      "hi": "डार्क साइकोलॉजी मुख्य रूप से किससे संबंधित है?"
+    },
+    "options": [
+      { "en": "Understanding positive thinking", "hi": "सकारात्मक सोच को समझना" },
+      { "en": "Studying manipulation and coercion", "hi": "हेरफेर और जबरदस्ती का अध्ययन" },
+      { "en": "Learning meditation techniques", "hi": "ध्यान तकनीक सीखना" },
+      { "en": "Improving memory", "hi": "याददाश्त में सुधार" }
+    ],
+    "correctIndex": 1
+  },
+  {
+    "topicId": "dark-psychology",
+    "id": 2,
+    "question": {
+      "en": "Which of the following is a common tactic in dark psychology?",
+      "hi": "निम्नलिखित में से कौन सा डार्क साइकोलॉजी में एक सामान्य चाल है?"
+    },
+    "options": [
+      { "en": "Empathy", "hi": "सहानुभूति" },
+      { "en": "Gaslighting", "hi": "गैसलाइटिंग" },
+      { "en": "Active listening", "hi": "सक्रिय सुनना" },
+      { "en": "Compassion", "hi": "करुणा" }
+    ],
+    "correctIndex": 1
+  }
+]
