@@ -184,17 +184,24 @@ function updateLearn() {
     document.getElementById('learn-title').textContent = currentTopic.title[currentLang];
     document.getElementById('learn-paragraph').textContent = currentTopic.paragraph[currentLang];
 
-    const prog = getTopicProgress(tid);
     const percent = calculateProgressPercent(tid);
     const badge = document.getElementById('learn-progress-badge');
     badge.textContent = `${percent}% · ${getLevel(percent)}`;
 }
 
-// TTS
+// TTS Paragraph
 document.getElementById('listen-btn').addEventListener('click', () => {
     if (!currentTopic) return;
     const text = currentTopic.paragraph[currentLang];
     speak(text);
+});
+
+// TTS Question
+document.getElementById('listen-question-btn').addEventListener('click', () => {
+    const q = currentQuestions[questionIndex];
+    if (q) {
+        speak(q.question[currentLang]);
+    }
 });
 
 function speak(text) {
@@ -212,7 +219,7 @@ function speak(text) {
     speechSynth.speak(utterance);
 }
 
-// "Take Quiz" -> mark learn complete and open quiz
+// ---------- QUIZ ----------
 document.getElementById('quiz-btn').addEventListener('click', () => {
     if (!currentTopic) return;
     const tid = currentTopic.topicId || currentTopic.id;
@@ -235,7 +242,6 @@ document.getElementById('quiz-btn').addEventListener('click', () => {
     renderQuestion();
 });
 
-// ---------- QUIZ ----------
 function renderQuestion() {
     const q = currentQuestions[questionIndex];
     document.getElementById('quiz-progress').textContent = `Question ${questionIndex + 1} / ${currentQuestions.length}`;
@@ -283,7 +289,6 @@ function showResult() {
     document.getElementById('quiz-result').classList.remove('hidden');
     document.getElementById('result-title').textContent = currentLang === 'hi' ? 'परिणाम' : 'Result';
     document.getElementById('score-text').textContent = `${score} / ${total} (${percent}%)`;
-    // Save progress
     if (currentTopic) {
         const tid = currentTopic.topicId || currentTopic.id;
         const prog = getTopicProgress(tid);
@@ -301,7 +306,10 @@ function showResult() {
 }
 
 // Back buttons
-document.getElementById('back-to-topics').addEventListener('click', () => showView('home'));
+document.getElementById('back-to-topics').addEventListener('click', () => {
+    renderTopics(); // refresh progress
+    showView('home');
+});
 document.getElementById('back-to-learn').addEventListener('click', () => showView('learn'));
 
 // Settings
