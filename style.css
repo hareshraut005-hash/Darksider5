@@ -1,0 +1,315 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #121212;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* Login */
+.login-box {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 40px;
+    background: #1e1e1e;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.tagline {
+    color: #999;
+    margin-bottom: 30px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 16px;
+    background: #2a2a2a;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 10px;
+}
+
+.btn.primary {
+    background: #6c5ce7;
+    color: #fff;
+}
+
+.btn.primary:hover {
+    background: #5a4bd1;
+}
+
+.btn.secondary {
+    background: #6c5ce7;
+    color: #fff;
+}
+
+.btn.ghost {
+    background: transparent;
+    border: 1px solid #6c5ce7;
+    color: #fff;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #1e1e1e;
+    position: sticky;
+    top: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-small {
+    font-size: 24px;
+}
+
+.app-title {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.lang-select {
+    background: #2a2a2a;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Home */
+.hero {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.hero-logo {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.topics-list {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+}
+
+.topic-card {
+    background: #1e1e1e;
+    border-radius: 15px;
+    padding: 18px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.topic-card:hover {
+    background: #2a2a2a;
+}
+
+.topic-number {
+    background: #6c5ce7;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.topic-title {
+    flex: 1;
+    font-weight: 500;
+}
+
+/* Learn */
+.learn-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: #6c5ce7;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.action-row {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+/* Quiz */
+.quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.option {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    background: #2a2a2a;
+}
+
+.option.selected {
+    border-color: #6c5ce7;
+}
+
+.option.correct {
+    background: #2e7d32;
+    border-color: #2e7d32;
+}
+
+.option.wrong {
+    background: #c62828;
+    border-color: #c62828;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #1e1e1e;
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.legal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.settings-item {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: #2a2a2a;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    text-align: left;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
